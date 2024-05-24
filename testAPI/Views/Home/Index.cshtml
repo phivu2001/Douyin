@@ -1,0 +1,61 @@
+﻿@model APIModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+<h2>API Data</h2>
+
+@if (Model.Status == 200)
+{
+    <div>
+        <h3>@Model.Message</h3>
+
+        @foreach (var content in Model.Data.data)
+        {
+            <div class="content-item">
+                <h4>@content.Content</h4>
+                <p>Likes: @content.Like</p>
+                <p>Comments: @content.Comment</p>
+                <p>Shares: @content.Share</p>
+                <p>Creation Time: @content.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                <p>Type: @content.Type</p>
+                <p><a href="@content.Url" target="_blank">Video URL</a></p>
+
+                <div>
+                    <h5>Images:</h5>
+                    @foreach (var image in content.Images)
+                    {
+                        <img src="@image.Url" alt="Image" width="300" />
+                    }
+                </div>
+
+                <div>
+                    <h5>Videos:</h5>
+                    @foreach (var video in content.Videos)
+                    {
+                        <video id="video-@video.Id" class="video-js vjs-default-skin" controls style="width: 100%; max-width: 375px; height: auto;">
+                            <source src="@video.Url" type="video/mp4">
+                        </video>
+                    }
+                </div>
+
+                <div>
+                    <h5>Douyin Target:</h5>
+                    <img src="@content.DouyinTarget.Avatar" alt="Avatar" width="50" />
+                    <p>Name: @content.DouyinTarget.Name</p>
+                    <p><a href="@content.DouyinTarget.Link" target="_blank">Profile Link</a></p>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>
+        <h3>Error fetching data: @Model.Message</h3>
+    </div>
+
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
